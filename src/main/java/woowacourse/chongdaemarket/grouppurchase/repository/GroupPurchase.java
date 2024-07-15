@@ -15,6 +15,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import woowacourse.chongdaemarket.common.repository.BaseTimeEntity;
+import woowacourse.chongdaemarket.global.exception.MarketException;
+import woowacourse.chongdaemarket.grouppurchase.exception.GroupPurchaseErrorCode;
 import woowacourse.chongdaemarket.member.repository.Member;
 
 @Getter
@@ -63,4 +65,24 @@ public class GroupPurchase extends BaseTimeEntity {
 
     @NotNull
     private BigDecimal totalPrice;
+
+    public boolean isCountFull() {
+        return this.totalCount.equals(this.currentCount);
+    }
+
+    public boolean isDeadlineOver() {
+        return LocalDateTime.now().isAfter(this.deadline);
+    }
+
+    public boolean isAutoConfirmed() {
+        return isCountFull() && isDeadlineOver();
+    }
+
+    public Integer addParticipant() {
+        if (this.currentCount >= this.totalCount) {
+            throw new MarketException(GroupPurchaseErrorCode.GROUP_PURCHASE_PARTICIPANT_ALREADY_FULL);
+        }
+        this.currentCount += 1;
+        return this.currentCount;
+    }
 }
