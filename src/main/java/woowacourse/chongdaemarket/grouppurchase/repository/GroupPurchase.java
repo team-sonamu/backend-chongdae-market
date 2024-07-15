@@ -67,6 +67,18 @@ public class GroupPurchase extends BaseTimeEntity {
     @NotNull
     private BigDecimal totalPrice;
 
+    public boolean isCountFull() {
+        return this.totalCount.equals(this.currentCount);
+    }
+
+    public boolean isDeadlineOver() {
+        return LocalDateTime.now().isAfter(this.deadline);
+    }
+
+    public boolean isAutoConfirmed() {
+        return isCountFull() && isDeadlineOver();
+    }
+
     public Integer addParticipant() {
         if (this.currentCount >= this.totalCount) {
             throw new MarketException(GroupPurchaseErrorCode.GROUP_PURCHASE_PARTICIPANT_ALREADY_FULL);
