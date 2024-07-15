@@ -1,5 +1,6 @@
 package woowacourse.chongdaemarket.grouppurchase.repository;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,10 +35,13 @@ public class GroupPurchase extends BaseTimeEntity {
     private String title;
 
     @NotNull
+    @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(columnDefinition = "TEXT")
     private String thumbnailUrl;
 
+    @Column(columnDefinition = "TEXT")
     private String productUrl;
 
     @NotNull
