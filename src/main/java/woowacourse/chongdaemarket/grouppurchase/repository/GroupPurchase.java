@@ -15,7 +15,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import woowacourse.chongdaemarket.common.repository.BaseTimeEntity;
-import woowacourse.chongdaemarket.global.exception.ErrorResponse;
 import woowacourse.chongdaemarket.global.exception.MarketException;
 import woowacourse.chongdaemarket.grouppurchase.exception.GroupPurchaseErrorCode;
 import woowacourse.chongdaemarket.member.repository.Member;
