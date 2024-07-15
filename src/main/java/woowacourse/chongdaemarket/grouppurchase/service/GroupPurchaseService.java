@@ -38,6 +38,8 @@ public class GroupPurchaseService {
     public ParticipationCountResponse participateGroupPurchaseById(ParticipationCountRequest request) {
         GroupPurchase groupPurchase = groupPurchaseRepository.findById(request.articleId())
                 .orElseThrow(() -> new MarketException(GroupPurchaseErrorCode.GROUP_PURCHASE_NOT_FOUND));
-        return new ParticipationCountResponse(groupPurchase.addParticipant());
+        Integer currentCount = groupPurchase.addParticipant();
+        GroupPurchaseStatus status = GroupPurchaseStatus.decideGroupPurchaseStatus(groupPurchase);
+        return new ParticipationCountResponse(status, currentCount);
     }
 }

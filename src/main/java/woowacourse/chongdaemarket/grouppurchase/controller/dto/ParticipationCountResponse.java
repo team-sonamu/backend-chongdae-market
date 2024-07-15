@@ -1,4 +1,6 @@
 package woowacourse.chongdaemarket.grouppurchase.controller.dto;
 
-public record ParticipationCountResponse(Integer currentCount) {
+import woowacourse.chongdaemarket.grouppurchase.repository.GroupPurchaseStatus;
+
+public record ParticipationCountResponse(GroupPurchaseStatus status, Integer currentCount) {
 }
