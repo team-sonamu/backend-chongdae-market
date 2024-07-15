@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import woowacourse.chongdaemarket.grouppurchase.controller.dto.GroupPurchaseGetByIdResponse;
+import woowacourse.chongdaemarket.grouppurchase.controller.dto.GroupPurchaseResponse;
 import woowacourse.chongdaemarket.grouppurchase.controller.dto.ParticipationCountRequest;
 import woowacourse.chongdaemarket.grouppurchase.controller.dto.ParticipationCountResponse;
 import woowacourse.chongdaemarket.grouppurchase.service.GroupPurchaseService;
@@ -19,9 +19,9 @@ public class GroupPurchaseController {
     private final GroupPurchaseService groupPurchaseService;
 
     @GetMapping("/group-purchases/{group-purchase-id}")
-    public ResponseEntity<GroupPurchaseGetByIdResponse> getGroupPurchaseById(
+    public ResponseEntity<GroupPurchaseResponse> getGroupPurchaseById(
             @PathVariable(name = "group-purchase-id") Long groupPurchaseId) {
-        GroupPurchaseGetByIdResponse response = groupPurchaseService.getGroupPurchaseById(groupPurchaseId);
+        GroupPurchaseResponse response = groupPurchaseService.getGroupPurchaseById(groupPurchaseId);
         return ResponseEntity.ok(response);
     }
 
