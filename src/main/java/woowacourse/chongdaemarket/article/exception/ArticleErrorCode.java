@@ -1,8 +1,10 @@
 package woowacourse.chongdaemarket.article.exception;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import woowacourse.chongdaemarket.global.exception.ErrorResponse;
 
+@Getter
 public enum ArticleErrorCode implements ErrorResponse {
 
     ARTICLE_NOT_FOUND(HttpStatus.BAD_REQUEST, "해당 게시글이 존재하지 않습니다."),
@@ -14,15 +16,5 @@ public enum ArticleErrorCode implements ErrorResponse {
     ArticleErrorCode(HttpStatus status, String detail) {
         this.status = status;
         this.detail = detail;
-    }
-
-    @Override
-    public HttpStatus getStatus() {
-        return this.status;
-    }
-
-    @Override
-    public String getDetail() {
-        return this.detail;
     }
 }
