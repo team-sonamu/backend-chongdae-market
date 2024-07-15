@@ -1,4 +1,4 @@
-package woowacourse.chongdaemarket.grouppurchase.repository;
+package woowacourse.chongdaemarket.article.repository;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,9 +14,9 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import woowacourse.chongdaemarket.article.exception.ArticleErrorCode;
 import woowacourse.chongdaemarket.common.repository.BaseTimeEntity;
 import woowacourse.chongdaemarket.global.exception.MarketException;
-import woowacourse.chongdaemarket.grouppurchase.exception.GroupPurchaseErrorCode;
 import woowacourse.chongdaemarket.member.repository.Member;
 
 @Getter
@@ -24,7 +24,7 @@ import woowacourse.chongdaemarket.member.repository.Member;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id", callSuper = false)
 @Entity
-public class GroupPurchase extends BaseTimeEntity {
+public class Article extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -80,7 +80,7 @@ public class GroupPurchase extends BaseTimeEntity {
 
     public Integer addParticipant() {
         if (this.currentCount >= this.totalCount) {
-            throw new MarketException(GroupPurchaseErrorCode.GROUP_PURCHASE_PARTICIPANT_ALREADY_FULL);
+            throw new MarketException(ArticleErrorCode.ARTICLE_PARTICIPANT_ALREADY_FULL);
         }
         this.currentCount += 1;
         return this.currentCount;
