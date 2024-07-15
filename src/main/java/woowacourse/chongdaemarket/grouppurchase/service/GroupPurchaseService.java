@@ -2,11 +2,13 @@ package woowacourse.chongdaemarket.grouppurchase.service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import woowacourse.chongdaemarket.global.exception.MarketException;
-import woowacourse.chongdaemarket.grouppurchase.controller.dto.GroupPurchaseGetByIdResponse;
+import woowacourse.chongdaemarket.grouppurchase.controller.dto.GroupPurchaseResponse;
+import woowacourse.chongdaemarket.grouppurchase.controller.dto.GroupPurchaseResponses;
 import woowacourse.chongdaemarket.grouppurchase.controller.dto.ParticipationCountRequest;
 import woowacourse.chongdaemarket.grouppurchase.controller.dto.ParticipationCountResponse;
 import woowacourse.chongdaemarket.grouppurchase.exception.GroupPurchaseErrorCode;
@@ -20,13 +22,26 @@ public class GroupPurchaseService {
 
     private final GroupPurchaseRepository groupPurchaseRepository;
 
-    public GroupPurchaseGetByIdResponse getGroupPurchaseById(Long groupPurchaseId) {
+    public GroupPurchaseResponse getGroupPurchaseById(Long groupPurchaseId) {
         GroupPurchase groupPurchase = groupPurchaseRepository.findById(groupPurchaseId)
                 .orElseThrow(); // TODO: 예외 처리
         BigDecimal splitPrice = calculateSplitPrice(groupPurchase);
         GroupPurchaseStatus status = GroupPurchaseStatus.decideGroupPurchaseStatus(groupPurchase);
-        return new GroupPurchaseGetByIdResponse(groupPurchase, splitPrice, status);
+        return new GroupPurchaseResponse(groupPurchase, splitPrice, status);
     }
+
+    public GroupPurchaseResponses getAllGroupPurchases() {
+        List<GroupPurchaseResponse> groupPurchaseResponses = groupPurchaseRepository.findAll().stream()
+                .map(groupPurchase -> {
+                    BigDecimal splitPrice = calculateSplitPrice(groupPurchase);
+                    GroupPurchaseStatus status = GroupPurchaseStatus.decideGroupPurchaseStatus(groupPurchase);
+                    return new GroupPurchaseResponse(groupPurchase, splitPrice, status);
+                })
+                .toList();
+
+        return new GroupPurchaseResponses(groupPurchaseResponses);
+    }
+
 
     private BigDecimal calculateSplitPrice(GroupPurchase groupPurchase) {
         BigDecimal totalPrice = groupPurchase.getTotalPrice();
