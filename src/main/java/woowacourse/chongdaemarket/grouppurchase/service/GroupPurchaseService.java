@@ -2,11 +2,13 @@ package woowacourse.chongdaemarket.grouppurchase.service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import woowacourse.chongdaemarket.global.exception.MarketException;
 import woowacourse.chongdaemarket.grouppurchase.controller.dto.GroupPurchaseResponse;
+import woowacourse.chongdaemarket.grouppurchase.controller.dto.GroupPurchaseResponses;
 import woowacourse.chongdaemarket.grouppurchase.controller.dto.ParticipationCountRequest;
 import woowacourse.chongdaemarket.grouppurchase.controller.dto.ParticipationCountResponse;
 import woowacourse.chongdaemarket.grouppurchase.exception.GroupPurchaseErrorCode;
@@ -27,6 +29,19 @@ public class GroupPurchaseService {
         GroupPurchaseStatus status = GroupPurchaseStatus.decideGroupPurchaseStatus(groupPurchase);
         return new GroupPurchaseResponse(groupPurchase, splitPrice, status);
     }
+
+    public GroupPurchaseResponses getAllGroupPurchases() {
+        List<GroupPurchaseResponse> groupPurchaseResponses = groupPurchaseRepository.findAll().stream()
+                .map(groupPurchase -> {
+                    BigDecimal splitPrice = calculateSplitPrice(groupPurchase);
+                    GroupPurchaseStatus status = GroupPurchaseStatus.decideGroupPurchaseStatus(groupPurchase);
+                    return new GroupPurchaseResponse(groupPurchase, splitPrice, status);
+                })
+                .toList();
+
+        return new GroupPurchaseResponses(groupPurchaseResponses);
+    }
+
 
     private BigDecimal calculateSplitPrice(GroupPurchase groupPurchase) {
         BigDecimal totalPrice = groupPurchase.getTotalPrice();
