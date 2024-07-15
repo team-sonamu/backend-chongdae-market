@@ -6,5 +6,5 @@ public interface ErrorResponse {
 
     HttpStatus getStatus();
 
-    String getDetail();
+    ErrorMessage getErrorMessage();
 }
