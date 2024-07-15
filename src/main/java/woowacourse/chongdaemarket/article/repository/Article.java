@@ -67,7 +67,7 @@ public class Article extends BaseTimeEntity {
     @NotNull
     private BigDecimal totalPrice;
 
-    public BigDecimal calculateSplitPrice() {
+    public BigDecimal calculateDividedPrice() {
         return this.totalPrice.divide(BigDecimal.valueOf(this.totalCount), RoundingMode.HALF_UP);
     }
 
