@@ -1,4 +1,10 @@
 package woowacourse.chongdaemarket.article.controller.dto;
 
-public record ParticipationCountRequest(Long articleId) {
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
+public record ParticipationCountRequest(
+        @NotNull
+        @Positive
+        Long articleId) {
 }
