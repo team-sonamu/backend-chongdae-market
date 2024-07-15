@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler
-    ResponseEntity<String> handle(MarketException e) {
+    ResponseEntity<ErrorMessage> handle(MarketException e) {
         ErrorResponse errorResponse = e.getErrorResponse();
         return ResponseEntity.status(errorResponse.getStatus())
-                .body(errorResponse.getDetail());
+                .body(errorResponse.getErrorMessage());
     }
 }
