@@ -23,7 +23,7 @@ public class ArticleService {
 
     public ArticleResponse getArticleById(Long articleId) {
         Article article = articleRepository.findById(articleId)
-                .orElseThrow(); // TODO: 예외 처리
+                .orElseThrow(() -> new MarketException(ArticleErrorCode.ARTICLE_NOT_FOUND));
         BigDecimal dividedPrice = article.calculateDividedPrice();
         ArticleStatus status = ArticleStatus.decideArticleStatus(article);
         return new ArticleResponse(article, dividedPrice, status);
