@@ -1,7 +1,6 @@
 package woowacourse.chongdaemarket.article.service;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,28 +23,22 @@ public class ArticleService {
 
     public ArticleResponse getArticleById(Long articleId) {
         Article article = articleRepository.findById(articleId)
-                .orElseThrow(); // TODO: 예외 처리
-        BigDecimal splitPrice = calculateSplitPrice(article);
+                .orElseThrow(() -> new MarketException(ArticleErrorCode.ARTICLE_NOT_FOUND));
+        BigDecimal dividedPrice = article.calculateDividedPrice();
         ArticleStatus status = ArticleStatus.decideArticleStatus(article);
-        return new ArticleResponse(article, splitPrice, status);
+        return new ArticleResponse(article, dividedPrice, status);
     }
 
     public ArticleResponses getAllArticles() {
         List<ArticleResponse> articleResponse = articleRepository.findAll().stream()
                 .map(article -> {
-                    BigDecimal splitPrice = calculateSplitPrice(article);
+                    BigDecimal dividedPrice = article.calculateDividedPrice();
                     ArticleStatus status = ArticleStatus.decideArticleStatus(article);
-                    return new ArticleResponse(article, splitPrice, status);
+                    return new ArticleResponse(article, dividedPrice, status);
                 })
                 .toList();
 
         return new ArticleResponses(articleResponse);
-    }
-
-    private BigDecimal calculateSplitPrice(Article article) {
-        BigDecimal totalPrice = article.getTotalPrice();
-        int totalCount = article.getTotalCount();
-        return totalPrice.divide(BigDecimal.valueOf(totalCount), RoundingMode.HALF_UP);
     }
 
     @Transactional

@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -65,6 +66,10 @@ public class Article extends BaseTimeEntity {
 
     @NotNull
     private BigDecimal totalPrice;
+
+    public BigDecimal calculateDividedPrice() {
+        return this.totalPrice.divide(BigDecimal.valueOf(this.totalCount), RoundingMode.HALF_UP);
+    }
 
     public boolean isCountFull() {
         return this.totalCount.equals(this.currentCount);
