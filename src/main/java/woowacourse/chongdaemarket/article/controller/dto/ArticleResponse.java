@@ -18,7 +18,8 @@ public record ArticleResponse(Long id,
                               String thumbnailUrl,
                               BigDecimal dividedPrice,
                               BigDecimal totalPrice,
-                              ArticleStatus status) {
+                              ArticleStatus status,
+                              Boolean isClosed) {
 
     public ArticleResponse(Article article,
                            BigDecimal dividedPrice,
@@ -36,6 +37,7 @@ public record ArticleResponse(Long id,
                 article.getThumbnailUrl(),
                 dividedPrice,
                 article.getTotalPrice(),
-                status);
+                status,
+                status.isClosed());
     }
 }
