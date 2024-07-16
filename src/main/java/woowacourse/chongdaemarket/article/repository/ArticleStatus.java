@@ -19,4 +19,8 @@ public enum ArticleStatus {
         }
         return ArticleStatus.AVAILABLE;
     }
+
+    public Boolean isClosed() {
+        return this != AVAILABLE;
+    }
 }

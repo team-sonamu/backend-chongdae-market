@@ -16,9 +16,10 @@ public record ArticleResponse(Long id,
                               Integer currentCount,
                               Integer totalCount,
                               String thumbnailUrl,
-                              BigDecimal dividedPrice,
-                              BigDecimal totalPrice,
-                              ArticleStatus status) {
+                              Integer dividedPrice,
+                              Integer totalPrice,
+                              ArticleStatus status,
+                              Boolean isClosed) {
 
     public ArticleResponse(Article article,
                            BigDecimal dividedPrice,
@@ -34,8 +35,9 @@ public record ArticleResponse(Long id,
                 article.getCurrentCount(),
                 article.getTotalCount(),
                 article.getThumbnailUrl(),
-                dividedPrice,
-                article.getTotalPrice(),
-                status);
+                dividedPrice.intValue(),
+                article.getTotalPrice().intValue(),
+                status,
+                status.isClosed());
     }
 }
